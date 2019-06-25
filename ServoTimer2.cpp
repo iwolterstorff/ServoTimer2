@@ -21,7 +21,7 @@ static volatile uint8_t ISRCount;  // iteration counter used in the interrupt ro
 uint8_t ChannelCount = 0;	    // counter holding the number of attached channels
 static boolean isStarted = false;  // flag to indicate if the ISR has been initialised
 
-ISR (TIMER2_OVF_vect)
+ISR (TIMER0_OVF_vect)
 { 
   ++ISRCount; // increment the overlflow counter
   if (ISRCount ==  servos[Channel].counter ) // are we on the final iteration for this channel
@@ -121,12 +121,12 @@ static void initISR()
 	ISRCount = 0;  // clear the value of the ISR counter;
 	
 	/* setup for timer 2 */
-	TIMSK2 = 0;  // disable interrupts 
-	TCCR2A = 0;  // normal counting mode 
-	TCCR2B = _BV(CS21); // set prescaler of 8 
-	TCNT2 = 0;     // clear the timer2 count 
-	TIFR2 = _BV(TOV2);  // clear pending interrupts; 
-	TIMSK2 =  _BV(TOIE2) ; // enable the overflow interrupt	  
+	TIMSK0 = 0;  // disable interrupts 
+	TCCR0A = 0;  // normal counting mode 
+	TCCR0B = _BV(CS01); // set prescaler of 8 
+	TCNT0 = 0;     // clear the timer2 count 
+	TIFR0 = _BV(TOV0);  // clear pending interrupts; 
+	TIMSK0 =  _BV(TOIE0) ; // enable the overflow interrupt	  
 	  
 	isStarted = true;  // flag to indicate this initialisation code has been executed
 } 
